@@ -1,0 +1,21 @@
+image: python:3.10
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - docker build -t web-app:latest .
+
+test:
+  stage: test
+  script:
+    - docker run web-app:latest python -m unittest discover
+
+deploy:
+  stage: deploy
+  script:
+    - docker run -d -p 5000:5000 web-app:latest
